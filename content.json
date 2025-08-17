@@ -1,0 +1,140 @@
+{
+  "app": {
+    "title": "Life Prediction App",
+    "subtitle": "Predict your trajectory based on choices within your control"
+  },
+  "screens": {
+    "age_input": {
+      "title": "Life Parameters Setup",
+      "description": "First, let's establish your baseline parameters for life expectancy prediction.",
+      "dob_label": "Your Date of Birth:",
+      "health_label": "Health Conditions (select all that apply):",
+      "button": "Set Life Parameters"
+    },
+    "intro": {
+      "title": "Understanding What You Can Control",
+      "description": "Life is often brutal and unfair. External factors beyond your control will frequently disappoint you. This app focuses solely on what remains within your power: your attention, intention, and mindfulness.",
+      "explanation": "We'll ask you simple questions about fundamental choices, then show you two types of predictions:",
+      "types": {
+        "abstract": "Abstract Aspects: Your internal strength and resilience (highly predictable)",
+        "concrete": "Concrete Outcomes: External results like money, respect, relationships (highly unpredictable)"
+      },
+      "button": "Begin Assessment",
+      "life_clock_title": "Your Life Clock",
+      "countdown_note": "Based on statistical predictions and your choices"
+    },
+    "questions": {
+      "title": "Life Assessment Questions",
+      "description": "Answer each question to build your life trajectory prediction. Click on each question to expand and make your choice.",
+      "button": "View Your Predictions"
+    },
+    "predictions": {
+      "title": "Your Life Trajectory",
+      "health_section": "Health & Lifespan Overview",
+      "abstract_section": "Abstract Aspects (Within Your Control)",
+      "concrete_section": "Concrete Outcomes (Largely Beyond Your Control)",
+      "reality_check": "Remember: External outcomes depend heavily on factors beyond your control. Build internal strength regardless of external results.",
+      "continue_button": "Continue Building Patterns",
+      "config_button": "Configuration",
+      "direct_predictions_button": "Direct Predictions"
+    },
+    "configuration": {
+      "title": "Configuration Settings",
+      "clock_settings": "Clock Display Settings",
+      "life_parameters": "Life Parameters",
+      "update_button": "Update Life Parameters",
+      "back_button": "Back to Predictions",
+      "back_to_main": "Back to Main"
+    },
+    "direct_predictions": {
+      "title": "Quick Predictions",
+      "description": "View your life trajectory based on previous assessment results, without answering questions again.",
+      "back_to_main": "Back to Main",
+      "new_assessment": "Take New Assessment"
+    }
+  },
+  "health_conditions": {
+    "none": "None / Healthy",
+    "diabetes": "Diabetes",
+    "heart_disease": "Heart Disease",
+    "cancer": "Cancer (in remission)",
+    "hypertension": "High Blood Pressure",
+    "obesity": "Obesity",
+    "smoking": "Smoking Habit",
+    "mental_health": "Mental Health Condition",
+    "other": "Other Chronic Condition"
+  },
+  "health_labels": {
+    "current_age": "Current Age:",
+    "health_conditions": "Health Conditions:",
+    "life_expectancy_range": "Life Expectancy Range:",
+    "most_likely_lifespan": "Most Likely Lifespan:",
+    "remaining_years": "Remaining Years (Realistic):"
+  },
+  "timeframes": {
+    "weeks": {
+      "title": "Weeks (1-8 weeks)",
+      "description": "Small but noticeable changes"
+    },
+    "months": {
+      "title": "Months (2-18 months)", 
+      "description": "Moderate changes"
+    },
+    "years": {
+      "title": "Years (2+ years)",
+      "description": "Substantial changes possible"
+    }
+  },
+  "countdown_labels": {
+    "days": "Days",
+    "hours": "Hours", 
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "total_days": "Total Days",
+    "total_hours": "Total Hours",
+    "total_minutes": "Total Minutes",
+    "total_seconds": "Total Seconds"
+  },
+  "scenarios": {
+    "optimistic": "Optimistic",
+    "realistic": "Realistic", 
+    "pessimistic": "Pessimistic"
+  },
+  "config_options": {
+    "show_global_clock": "Show Global Life Clock",
+    "show_minute_boxes": "Show Minute Countdown Boxes",
+    "show_second_boxes": "Show Second Countdown Boxes",
+    "show_scenario_clocks": "Show Scenario Breakdown Clocks"
+  },
+  "abstract_categories": {
+    "mindfulness": "Mindfulness",
+    "intention": "Intention",
+    "action": "Action",
+    "appreciation": "Appreciation",
+    "presence": "Presence",
+    "selfBelief": "Self Belief",
+    "agency": "Agency",
+    "validation": "Validation"
+  },
+  "concrete_categories": {
+    "financial": "Financial Stability",
+    "respect": "Social Respect", 
+    "relationships": "Relationship Quality",
+    "opportunities": "Career Opportunities"
+  },
+  "data_actions": {
+    "export_json": "Export JSON",
+    "export_csv": "Export CSV", 
+    "import_data": "Import Data",
+    "reset_history": "Reset History"
+  },
+  "messages": {
+    "complete_parameters": "Complete life parameters setup to see health and lifespan information.",
+    "parameters_updated": "Life parameters updated successfully!",
+    "set_parameters_first": "Please set your life parameters first before viewing predictions.",
+    "select_dob": "Please select your date of birth",
+    "select_health": "Please select at least one health condition (including \"None/Healthy\" if applicable)",
+    "future_dob": "Date of birth cannot be in the future",
+    "invalid_age": "Age must be between 1 and 120 years"
+  }
+}

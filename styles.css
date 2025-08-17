@@ -1124,6 +1124,33 @@ li {
     color: #721c24;
 }
 
+/* Health & Lifespan Info Styles */
+.health-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.health-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.health-label {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.health-value {
+    font-weight: 500;
+    color: #3498db;
+}
+
 /* Configuration Page Styles */
 .config-section {
     margin-bottom: 30px;

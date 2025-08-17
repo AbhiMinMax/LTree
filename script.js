@@ -16,11 +16,46 @@ class LifePredictionApp {
         this.boxesPerRow = 5;
         this.totalMinutes = 0;
         this.totalSeconds = 0;
-        this.initDatabase().then(async () => {
-            await this.loadChoiceHistory();
-            await this.loadLifeParameters();
-            this.init();
+        this.content = null;
+        
+        this.loadContent().then(() => {
+            this.initDatabase().then(async () => {
+                await this.loadChoiceHistory();
+                await this.loadLifeParameters();
+                this.init();
+                this.updateUIWithContent();
+            });
         });
+    }
+
+    async loadContent() {
+        try {
+            const response = await fetch('content.json');
+            this.content = await response.json();
+        } catch (error) {
+            console.error('Failed to load content.json, using fallback text:', error);
+            this.content = {
+                app: {
+                    title: "Life Prediction App",
+                    subtitle: "Predict your trajectory based on choices within your control"
+                }
+            };
+        }
+    }
+
+    updateUIWithContent() {
+        if (!this.content) return;
+        
+        // Update app title and subtitle in header
+        const titleElement = document.querySelector('header h1');
+        if (titleElement && this.content.app?.title) {
+            titleElement.textContent = this.content.app.title;
+        }
+        
+        const subtitleElement = document.querySelector('header p');
+        if (subtitleElement && this.content.app?.subtitle) {
+            subtitleElement.textContent = this.content.app.subtitle;
+        }
     }
 
     async initDatabase() {
@@ -1234,6 +1269,7 @@ class LifePredictionApp {
 
     showPrediction() {
         const scores = this.calculateScores();
+        this.displayHealthLifespanInfo();
         this.displayAbstractScores(scores.abstract);
         this.displayConcretePredictions(scores.concrete);
         this.showScreen('prediction');
@@ -1496,7 +1532,7 @@ class LifePredictionApp {
                 
                 <div class="abstract-timeframe-section">
                     <div class="timeframe-header">
-                        <h5 class="abstract-timeframe-title">Short Term (1-2 years)</h5>
+                        <h5 class="abstract-timeframe-title">Weeks (1-8 weeks)</h5>
                         <span class="timeframe-percentage">${Math.round(shortTermScore)}%</span>
                     </div>
                     <div class="abstract-description">${timeframes.shortTerm[shortLevel]}</div>
@@ -1504,7 +1540,7 @@ class LifePredictionApp {
 
                 <div class="abstract-timeframe-section">
                     <div class="timeframe-header">
-                        <h5 class="abstract-timeframe-title">Mid Term (3-7 years)</h5>
+                        <h5 class="abstract-timeframe-title">Months (2-18 months)</h5>
                         <span class="timeframe-percentage">${Math.round(midTermScore)}%</span>
                     </div>
                     <div class="abstract-description">${timeframes.midTerm[midLevel]}</div>
@@ -1512,7 +1548,7 @@ class LifePredictionApp {
 
                 <div class="abstract-timeframe-section">
                     <div class="timeframe-header">
-                        <h5 class="abstract-timeframe-title">Long Term (8+ years)</h5>
+                        <h5 class="abstract-timeframe-title">Years (2+ years)</h5>
                         <span class="timeframe-percentage">${Math.round(longTermScore)}%</span>
                     </div>
                     <div class="abstract-description">${timeframes.longTerm[longLevel]}</div>
@@ -1531,35 +1567,35 @@ class LifePredictionApp {
         
         switch (timeframe) {
             case 'short':
-                // Short term (1-2 years): modest changes
+                // Weeks (1-8 weeks): small but noticeable changes
                 if (momentum === 'positive') {
-                    change = Math.random() * 15 + 5; // 5-20% improvement
+                    change = Math.random() * 8 + 2; // 2-10% improvement
                 } else if (momentum === 'negative') {
-                    change = -(Math.random() * 10 + 2); // 2-12% decline
+                    change = -(Math.random() * 6 + 1); // 1-7% decline
                 } else {
-                    change = (Math.random() - 0.5) * 10; // -5% to +5%
+                    change = (Math.random() - 0.5) * 6; // -3% to +3%
                 }
                 break;
                 
             case 'mid':
-                // Mid term (3-7 years): more significant changes
+                // Months (2-18 months): moderate changes
                 if (momentum === 'positive') {
-                    change = Math.random() * 25 + 10; // 10-35% improvement
+                    change = Math.random() * 20 + 8; // 8-28% improvement
                 } else if (momentum === 'negative') {
-                    change = -(Math.random() * 20 + 5); // 5-25% decline
+                    change = -(Math.random() * 15 + 4); // 4-19% decline
                 } else {
-                    change = (Math.random() - 0.5) * 20; // -10% to +10%
+                    change = (Math.random() - 0.5) * 16; // -8% to +8%
                 }
                 break;
                 
             case 'long':
-                // Long term (8+ years): substantial changes possible
+                // Years (2+ years): substantial changes possible
                 if (momentum === 'positive') {
-                    change = Math.random() * 35 + 15; // 15-50% improvement
+                    change = Math.random() * 40 + 15; // 15-55% improvement
                 } else if (momentum === 'negative') {
-                    change = -(Math.random() * 30 + 10); // 10-40% decline
+                    change = -(Math.random() * 35 + 10); // 10-45% decline
                 } else {
-                    change = (Math.random() - 0.5) * 30; // -15% to +15%
+                    change = (Math.random() - 0.5) * 35; // -17.5% to +17.5%
                 }
                 break;
         }
@@ -1573,6 +1609,61 @@ class LifePredictionApp {
         
         const newScore = Math.max(5, Math.min(95, currentScore + change));
         return newScore;
+    }
+
+    displayHealthLifespanInfo() {
+        const container = document.getElementById('health-lifespan-info');
+        if (!container) return;
+        
+        if (!this.userDOB || !this.lifeExpectancies) {
+            container.innerHTML = '<p>Complete life parameters setup to see health and lifespan information.</p>';
+            return;
+        }
+        
+        const birthDate = new Date(this.userDOB);
+        const currentAge = this.calculateAge(birthDate);
+        
+        // Get health conditions display
+        const healthConditions = this.userDiseases.includes('none') ? 
+            ['None / Healthy'] : 
+            this.userDiseases.map(disease => {
+                const diseaseLabels = {
+                    diabetes: 'Diabetes',
+                    heart_disease: 'Heart Disease', 
+                    cancer: 'Cancer (in remission)',
+                    hypertension: 'High Blood Pressure',
+                    obesity: 'Obesity',
+                    smoking: 'Smoking Habit',
+                    mental_health: 'Mental Health Condition',
+                    other: 'Other Chronic Condition'
+                };
+                return diseaseLabels[disease] || disease;
+            });
+        
+        container.innerHTML = `
+            <div class="health-overview">
+                <div class="health-item">
+                    <span class="health-label">Current Age:</span>
+                    <span class="health-value">${currentAge} years</span>
+                </div>
+                <div class="health-item">
+                    <span class="health-label">Health Conditions:</span>
+                    <span class="health-value">${healthConditions.join(', ')}</span>
+                </div>
+                <div class="health-item">
+                    <span class="health-label">Life Expectancy Range:</span>
+                    <span class="health-value">${this.lifeExpectancies.pessimistic} - ${this.lifeExpectancies.optimistic} years</span>
+                </div>
+                <div class="health-item">
+                    <span class="health-label">Most Likely Lifespan:</span>
+                    <span class="health-value">${this.lifeExpectancies.realistic} years</span>
+                </div>
+                <div class="health-item">
+                    <span class="health-label">Remaining Years (Realistic):</span>
+                    <span class="health-value">${Math.max(0, this.lifeExpectancies.realistic - currentAge)} years</span>
+                </div>
+            </div>
+        `;
     }
 
     displayConcretePredictions(predictions) {
@@ -1671,7 +1762,7 @@ class LifePredictionApp {
                 </div>
                 
                 <div class="timeframe-section">
-                    <h4 class="timeframe-title">Short Term (1-2 years)</h4>
+                    <h4 class="timeframe-title">Weeks (1-8 weeks)</h4>
                     <div class="prediction-ranges">
                         <div class="range-item optimistic">
                             <span class="range-label">Optimistic (${pred.optimistic}%)</span>
@@ -1689,7 +1780,7 @@ class LifePredictionApp {
                 </div>
 
                 <div class="timeframe-section">
-                    <h4 class="timeframe-title">Mid Term (3-7 years)</h4>
+                    <h4 class="timeframe-title">Months (2-18 months)</h4>
                     <div class="prediction-ranges">
                         <div class="range-item optimistic">
                             <span class="range-label">Optimistic (${Math.round(pred.optimistic * 0.9)}%)</span>
@@ -1707,7 +1798,7 @@ class LifePredictionApp {
                 </div>
 
                 <div class="timeframe-section">
-                    <h4 class="timeframe-title">Long Term (8+ years)</h4>
+                    <h4 class="timeframe-title">Years (2+ years)</h4>
                     <div class="prediction-ranges">
                         <div class="range-item optimistic">
                             <span class="range-label">Optimistic (${Math.round(pred.optimistic * 0.8)}%)</span>
@@ -1746,6 +1837,11 @@ class LifePredictionApp {
         });
         document.getElementById(screenName).classList.add('active');
         this.currentScreen = screenName;
+        
+        // Ensure countdown continues on all screens if life parameters are set
+        if (this.userDOB && this.lifeExpectancies && !this.countdownInterval) {
+            this.startCountdown();
+        }
     }
 
     async loadChoiceHistory() {
@@ -2048,6 +2144,7 @@ class LifePredictionApp {
         
         // Show current predictions
         const scores = this.calculateScores();
+        this.displayQuickHealthLifespanInfo();
         this.displayQuickAbstractScores(scores.abstract);
         this.displayQuickConcretePredictions(scores.concrete);
         
@@ -2163,6 +2260,23 @@ class LifePredictionApp {
                 <span class="countdown-label">Seconds</span>
             </div>
         `;
+    }
+
+    displayQuickHealthLifespanInfo() {
+        const container = document.getElementById('quick-health-lifespan-info');
+        
+        // Temporarily store current container content
+        const originalContainer = document.getElementById('health-lifespan-info');
+        const originalContent = originalContainer.innerHTML;
+        
+        // Use the existing method to populate the original container
+        this.displayHealthLifespanInfo();
+        
+        // Copy the content to the quick container
+        container.innerHTML = originalContainer.innerHTML;
+        
+        // Restore original content
+        originalContainer.innerHTML = originalContent;
     }
 
     displayQuickAbstractScores(scores) {
