@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LPA</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Life Prediction App</h1>
+            <p>Predict your trajectory based on choices within your control</p>
+             <div class="navigation-actions" style="margin-top: 20px;">
+                        <button id="intro-config-btn" class="secondary-btn">Configuration</button>
+                        <button id="intro-direct-predictions-btn" class="secondary-btn">Direct Predictions</button>
+                    </div>
+            <div id="global-life-clock" class="global-life-clock" style="display: none;">
+                <div class="global-countdown-display">
+                    <div class="global-countdown-unit">
+                        <span class="global-countdown-number" id="global-days">0</span>
+                        <span class="global-countdown-label">Days</span>
+                    </div>
+                    <div class="global-countdown-unit">
+                        <span class="global-countdown-number" id="global-hours">0</span>
+                        <span class="global-countdown-label">Hours</span>
+                    </div>
+                    <div class="global-countdown-unit">
+                        <span class="global-countdown-number" id="global-minutes">0</span>
+                        <span class="global-countdown-label">Minutes</span>
+                    </div>
+                    <div class="global-countdown-unit">
+                        <span class="global-countdown-number" id="global-seconds">0</span>
+                        <span class="global-countdown-label">Seconds</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="minute-boxes-container" id="minute-boxes"></div>
+        <div class="second-boxes-container" id="second-boxes"></div>
+        
+        <main>
+            <section id="age-input" class="screen active">
+                <div class="content">
+                    <h2>Life Parameters Setup</h2>
+                    <p>First, let's establish your baseline parameters for life expectancy prediction.</p>
+                    
+                    <div class="input-section">
+                        <div class="input-group">
+                            <label for="dob-input-field">Your Date of Birth:</label>
+                            <input type="date" id="dob-input-field" max="" placeholder="Select your birth date">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="health-conditions">Health Conditions (select all that apply):</label>
+                            <div id="health-conditions" class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="none" id="none-condition">
+                                    <span class="checkbox-label">None / Healthy</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="diabetes">
+                                    <span class="checkbox-label">Diabetes</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="heart_disease">
+                                    <span class="checkbox-label">Heart Disease</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="cancer">
+                                    <span class="checkbox-label">Cancer (in remission)</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="hypertension">
+                                    <span class="checkbox-label">High Blood Pressure</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="obesity">
+                                    <span class="checkbox-label">Obesity</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="smoking">
+                                    <span class="checkbox-label">Smoking Habit</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="mental_health">
+                                    <span class="checkbox-label">Mental Health Condition</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="other">
+                                    <span class="checkbox-label">Other Chronic Condition</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button id="set-parameters-btn" class="primary-btn">Set Life Parameters</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="intro" class="screen">
+                <div class="content">
+                    <div id="life-countdown" class="life-countdown">
+                        <h3>Your Life Clock</h3>
+                        <div class="total-countdown">
+                            <h4>Total Time Remaining (Realistic)</h4>
+                            <div id="countdown-total" class="countdown-display-large"></div>
+                        </div>
+                        
+                        <h3>Scenario Breakdown</h3>
+                        <div class="countdown-scenarios">
+                            <div class="countdown-scenario optimistic">
+                                <h4>Optimistic</h4>
+                                <div id="countdown-optimistic" class="countdown-display"></div>
+                            </div>
+                            <div class="countdown-scenario realistic">
+                                <h4>Realistic</h4>
+                                <div id="countdown-realistic" class="countdown-display"></div>
+                            </div>
+                            <div class="countdown-scenario pessimistic">
+                                <h4>Pessimistic</h4>
+                                <div id="countdown-pessimistic" class="countdown-display"></div>
+                            </div>
+                        </div>
+                        <p class="countdown-note">Based on statistical predictions and your choices</p>
+                    </div>
+                    
+                    <h2>Understanding What You Can Control</h2>
+                    <p>Life is often brutal and unfair. External factors beyond your control will frequently disappoint you. This app focuses solely on what remains within your power: your attention, intention, and mindfulness.</p>
+                    <p>We'll ask you simple questions about fundamental choices, then show you two types of predictions:</p>
+                    <ul>
+                        <li><strong>Abstract Aspects</strong>: Your internal strength and resilience (highly predictable)</li>
+                        <li><strong>Concrete Outcomes</strong>: External results like money, respect, relationships (highly unpredictable)</li>
+                    </ul>
+                    <button id="start-btn" class="primary-btn">Begin Assessment</button>
+                   
+                </div>
+            </section>
+
+            <section id="question" class="screen">
+                <div class="content">
+                    <h2>Life Assessment Questions</h2>
+                    <p>Answer each question to build your life trajectory prediction. Click on each question to expand and make your choice.</p>
+                    <div id="questions-accordion" class="questions-accordion"></div>
+                    <div class="assessment-actions">
+                        <button id="complete-assessment-btn" class="primary-btn" style="display: none;">View Your Predictions</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="prediction" class="screen">
+                <div class="content">
+                    <h2>Your Life Trajectory</h2>
+                    
+                    <div class="prediction-section abstract">
+                        <h3>Abstract Aspects (Within Your Control)</h3>
+                        <div id="abstract-scores"></div>
+                    </div>
+                    
+                    <div class="prediction-section concrete">
+                        <h3>Concrete Outcomes (Largely Beyond Your Control)</h3>
+                        <div id="concrete-predictions"></div>
+                        <p class="reality-check">Remember: External outcomes depend heavily on factors beyond your control. Build internal strength regardless of external results.</p>
+                    </div>
+                    
+                    <div class="actions">
+                        <button id="continue-btn" class="primary-btn">Continue Building Patterns</button>
+                        <button id="config-btn" class="secondary-btn">Configuration</button>
+                        <button id="direct-predictions-btn" class="secondary-btn">Direct Predictions</button>
+                        <div class="data-actions">
+                            <button id="export-json-btn" class="secondary-btn">Export JSON</button>
+                            <button id="export-csv-btn" class="secondary-btn">Export CSV</button>
+                            <input type="file" id="import-file" accept=".json,.csv" style="display: none;">
+                            <button id="import-btn" class="secondary-btn">Import Data</button>
+                            <button id="reset-btn" class="secondary-btn">Reset History</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="configuration" class="screen">
+                <div class="content">
+                    <h2>Configuration Settings</h2>
+                    
+                    <div class="config-section">
+                        <h3>Clock Display Settings</h3>
+                        <div class="config-group">
+                            <label class="config-item">
+                                <input type="checkbox" id="show-global-clock" checked>
+                                <span class="config-label">Show Global Life Clock</span>
+                            </label>
+                            <label class="config-item">
+                                <input type="checkbox" id="show-minute-boxes" checked>
+                                <span class="config-label">Show Minute Countdown Boxes</span>
+                            </label>
+                            <label class="config-item">
+                                <input type="checkbox" id="show-second-boxes" checked>
+                                <span class="config-label">Show Second Countdown Boxes</span>
+                            </label>
+                            <label class="config-item">
+                                <input type="checkbox" id="show-scenario-clocks" checked>
+                                <span class="config-label">Show Scenario Breakdown Clocks</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="config-section">
+                        <h3>Life Parameters</h3>
+                        <div class="config-group">
+                            <div class="input-group">
+                                <label for="config-dob">Date of Birth:</label>
+                                <input type="date" id="config-dob" max="">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="config-health">Health Conditions:</label>
+                                <div id="config-health-conditions" class="checkbox-group">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" value="none" id="config-none-condition">
+                                        <span class="checkbox-label">None / Healthy</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" value="diabetes">
+                                        <span class="checkbox-label">Diabetes</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" value="heart_disease">
+                                        <span class="checkbox-label">Heart Disease</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" value="cancer">
+                                        <span class="checkbox-label">Cancer (in remission)</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" value="hypertension">
+                                        <span class="checkbox-label">High Blood Pressure</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" value="obesity">
+                                        <span class="checkbox-label">Obesity</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" value="smoking">
+                                        <span class="checkbox-label">Smoking Habit</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" value="mental_health">
+                                        <span class="checkbox-label">Mental Health Condition</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" value="other">
+                                        <span class="checkbox-label">Other Chronic Condition</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button id="update-parameters-btn" class="primary-btn">Update Life Parameters</button>
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button id="back-to-predictions-btn" class="secondary-btn">Back to Predictions</button>
+                        <button id="config-back-to-intro-btn" class="secondary-btn">Back to Main</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="direct-predictions" class="screen">
+                <div class="content">
+                    <h2>Quick Predictions</h2>
+                    <p>View your life trajectory based on previous assessment results, without answering questions again.</p>
+                    
+                    <div id="quick-countdown" class="life-countdown">
+                        <h3>Your Life Clock</h3>
+                        <div class="total-countdown">
+                            <h4>Total Time Remaining (Realistic)</h4>
+                            <div id="quick-countdown-total" class="countdown-display-large"></div>
+                        </div>
+                        
+                        <h3>Scenario Breakdown</h3>
+                        <div class="countdown-scenarios">
+                            <div class="countdown-scenario optimistic">
+                                <h4>Optimistic</h4>
+                                <div id="quick-countdown-optimistic" class="countdown-display"></div>
+                            </div>
+                            <div class="countdown-scenario realistic">
+                                <h4>Realistic</h4>
+                                <div id="quick-countdown-realistic" class="countdown-display"></div>
+                            </div>
+                            <div class="countdown-scenario pessimistic">
+                                <h4>Pessimistic</h4>
+                                <div id="quick-countdown-pessimistic" class="countdown-display"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="prediction-section abstract">
+                        <h3>Abstract Aspects (Within Your Control)</h3>
+                        <div id="quick-abstract-scores"></div>
+                    </div>
+                    
+                    <div class="prediction-section concrete">
+                        <h3>Concrete Outcomes (Largely Beyond Your Control)</h3>
+                        <div id="quick-concrete-predictions"></div>
+                        <p class="reality-check">Remember: External outcomes depend heavily on factors beyond your control. Build internal strength regardless of external results.</p>
+                    </div>
+                    
+                    <div class="actions">
+                        <button id="back-to-main-btn" class="secondary-btn">Back to Main</button>
+                        <button id="new-assessment-btn" class="primary-btn">Take New Assessment</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
