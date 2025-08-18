@@ -20,7 +20,7 @@ This app is designed to work on GitHub Pages. Simply:
 1. Enable GitHub Pages in repository settings
 2. Select source as "Deploy from a branch"
 3. Choose "main" branch and "/ (root)" folder
-4. Access at: `https://username.github.io/repository-name`
+4. Access at: `https://abhiminmax.github.io/LTree`
 
 ## Philosophy
 
